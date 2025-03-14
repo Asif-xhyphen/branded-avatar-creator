@@ -66,8 +66,14 @@ const SignUp = () => {
         
         {error && (
           <Alert variant="destructive" className="mb-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <AlertCircle className="h-5 w-5" />
+              </div>
+              <div className="ml-3">
+                <AlertDescription className="text-sm">{error}</AlertDescription>
+              </div>
+            </div>
           </Alert>
         )}
         
