@@ -1,8 +1,8 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "sonner";
-import { createClient, User } from "@supabase/supabase-js";
-import { useNavigate } from "react-router-dom";
+import { User } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
 
 type AppUser = {
   id: string;
@@ -33,7 +33,6 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const navigate = useNavigate();
   const [user, setUser] = useState<AppUser | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -189,30 +188,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY,
-  {
-    auth: {
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: true,
-      flowType: 'pkce'
-    },
-    global: {
-      headers: {
-        'x-application-name': 'branded-avatar-creator'
-      }
-    }
-  }
-);
-
   const signOut = async () => {
     try {
       setIsLoading(true);
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      navigate('/');
     } catch (error: any) {
       toast.error(error.message || "Failed to sign out");
     } finally {
