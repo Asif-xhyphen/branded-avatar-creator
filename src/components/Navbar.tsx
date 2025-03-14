@@ -7,6 +7,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Menu, X, ChevronRight, LogOut, UserCircle, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from './ThemeProvider';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,11 +42,19 @@ const Navbar = () => {
     navigate('/');
   };
   
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <header 
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out py-4',
-        isScrolled ? 'bg-white/90 backdrop-blur-md shadow-subtle' : 'bg-transparent'
+        isScrolled 
+          ? 'bg-background/90 backdrop-blur-md shadow-subtle border-b border-border' 
+          : 'bg-transparent'
       )}
     >
       <nav className="container mx-auto px-6 flex items-center justify-between">
@@ -138,7 +148,28 @@ const Navbar = () => {
                 </Button>
               </>
             )}
-          </div>
+               <button
+        onClick={toggleTheme}
+        className={cn(
+          "relative inline-flex h-8 w-14 items-center rounded-full transition-colors",
+          "bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600"
+        )}
+      >
+        <div
+          className={cn(
+            "absolute flex h-6 w-6 items-center justify-center rounded-full transition-transform",
+            "bg-white shadow-sm",
+            theme === 'dark' ? "translate-x-7" : "translate-x-1"
+          )}
+        >
+          {theme === 'dark' ? (
+            <Moon className="h-3.5 w-3.5 text-slate-700" />
+          ) : (
+            <Sun className="h-3.5 w-3.5 text-slate-700" />
+          )}
+        </div>
+        </button>
+        </div>
         </div>
         
         {/* Mobile menu button */}
@@ -153,7 +184,6 @@ const Navbar = () => {
             <Menu className="h-5 w-5" />
           )}
         </button>
-        
         {/* Mobile menu */}
         <div
           className={cn(
@@ -224,6 +254,21 @@ const Navbar = () => {
                     </Button>
                   </>
                 )}
+
+isMobileMenuOpen?   <div
+                        className={cn(
+                          "flex h-6 w-6 items-center justify-center rounded-full transition-transform",
+                          "bg-white shadow-sm",
+                          theme === 'dark' ? "translate-x-7" : "translate-x-1"
+                        )}
+                      >
+                        {theme === 'dark' ? (
+                          <Moon className="h-3.5 w-3.5 text-slate-700" />
+                        ) : (
+                          <Sun className="h-3.5 w-3.5 text-slate-700" />
+                        )}
+                      </div> <div/>
+               
               </div>
             </li>
           </ul>

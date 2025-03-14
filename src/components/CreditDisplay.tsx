@@ -28,16 +28,16 @@ const CreditDisplay = ({ horizontal = false, credits: propCredits }: CreditDispl
       horizontal ? "flex items-center" : ""
     )}>
       <div className={cn(
-        "p-4 bg-gradient-to-br from-sky-50 to-slate-50 border-b border-slate-100",
+        "p-4 bg-gradient-to-br from-sky-50 to-slate-50 dark:from-sky-900/10 dark:to-slate-900/20 border-b border-slate-100 dark:border-slate-800",
         horizontal && "border-b-0 border-r flex-shrink-0"
       )}>
         <div className="flex items-center space-x-3">
-          <div className="bg-white h-10 w-10 rounded-full flex items-center justify-center shadow-subtle">
-            <CreditCard className="h-5 w-5 text-sky-600" />
+          <div className="bg-white dark:bg-slate-800 h-10 w-10 rounded-full flex items-center justify-center shadow-subtle">
+            <CreditCard className="h-5 w-5 text-sky-600 dark:text-sky-400" />
           </div>
           <div>
-            <h3 className="font-medium text-slate-900">Your Credits</h3>
-            <p className="text-sm text-slate-600">Generate videos</p>
+            <h3 className="font-medium text-slate-900 dark:text-slate-100">Your Credits</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Generate videos</p>
           </div>
         </div>
       </div>

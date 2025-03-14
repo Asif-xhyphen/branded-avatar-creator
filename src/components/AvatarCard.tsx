@@ -64,12 +64,13 @@ const AvatarCard = ({
       className={cn(
         "relative overflow-hidden rounded-lg transition-all duration-300",
         "transform hover:-translate-y-1 hover:shadow-elevation",
+        "bg-white dark:bg-slate-900",
         isSelected && "ring-2 ring-sky-500"
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative aspect-[3/4] bg-slate-100 overflow-hidden">
+      <div className="relative aspect-[3/4] bg-slate-100 dark:bg-slate-800 overflow-hidden">
         {/* Static image */}
         <img 
           src={image} 
@@ -97,7 +98,7 @@ const AvatarCard = ({
         {/* Overlay content */}
         <div 
           className={cn(
-            "absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent",
+            "absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent dark:from-black/90",
             "flex flex-col justify-between p-4 transition-opacity duration-300",
             isHovering ? "opacity-100" : "opacity-0"
           )}
@@ -108,17 +109,19 @@ const AvatarCard = ({
               {tags.map((tag, index) => (
                 <span 
                   key={index} 
-                  className="inline-block text-[10px] font-medium bg-sky-100 text-sky-700 rounded-full px-2 py-0.5 mr-1.5"
+                  className="inline-block text-[10px] font-medium bg-sky-100/90 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300 rounded-full px-2 py-0.5 mr-1.5"
                 >
                   {tag}
                 </span>
               ))}
             </div>
             
+            {/* Update play button styles */}
             <button
               className={cn(
                 "h-8 w-8 rounded-full flex items-center justify-center",
-                "bg-white/90 text-slate-800 hover:bg-white focus-ring",
+                "bg-white/90 dark:bg-slate-800/90 text-slate-800 dark:text-slate-200",
+                "hover:bg-white dark:hover:bg-slate-700 focus-ring",
                 "transition-transform duration-300 ease-out"
               )}
               onClick={handlePlayToggle}
@@ -154,8 +157,8 @@ const AvatarCard = ({
       </div>
       
       {/* Avatar name */}
-      <div className="p-3 bg-white border-t border-slate-100">
-        <h3 className="font-medium text-sm text-slate-900">{name}</h3>
+      <div className="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+        <h3 className="font-medium text-sm text-slate-900 dark:text-slate-200">{name}</h3>
       </div>
       
       {/* Selected indicator */}

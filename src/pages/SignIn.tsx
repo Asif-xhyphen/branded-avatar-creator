@@ -39,7 +39,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-white to-sky-50 p-6">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-background to-slate-50/50 dark:from-background dark:to-slate-900/50 p-6">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link 
@@ -50,10 +50,10 @@ const SignIn = () => {
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center">
               <span className="text-white font-bold text-lg">U</span>
             </div>
-            <span className="font-semibold text-2xl tracking-tight">UGC Studio</span>
+            <span className="font-semibold text-2xl tracking-tight text-slate-900 dark:text-slate-100">UGC Studio</span>
           </Link>
-          <h1 className="mt-6 text-2xl font-bold text-slate-900">Sign in to your account</h1>
-          <p className="mt-2 text-slate-600">
+          <h1 className="mt-6 text-2xl font-bold text-slate-900 dark:text-slate-100">Sign in to your account</h1>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">
             Welcome back! Please enter your details.
           </p>
         </div>

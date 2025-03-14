@@ -64,18 +64,18 @@ const Index = () => {
         <Features />
         
         {/* How It Works */}
-        <section className="py-20 relative overflow-hidden bg-slate-50">
+        <section className="py-20 relative overflow-hidden bg-slate-50 dark:bg-slate-900/50">
           <div className="absolute inset-0 opacity-[0.02] bg-noise -z-10"></div>
           
           <div className="container px-6 mx-auto">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <span className="px-3 py-1 rounded-full bg-slate-200 text-slate-700 font-medium text-sm inline-block mb-6">
+              <span className="px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium text-sm inline-block mb-6">
                 Simple Process
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
-                Create UGC Ads in <span className="text-sky-600">Three Simple Steps</span>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6 text-slate-900 dark:text-slate-100">
+                Create UGC Ads in <span className="text-sky-600 dark:text-sky-400">Three Simple Steps</span>
               </h2>
-              <p className="text-slate-600 leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                 Our streamlined process makes it easy to generate authentic UGC-style videos without the hassle of traditional production.
               </p>
             </div>

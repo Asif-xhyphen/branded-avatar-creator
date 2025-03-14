@@ -45,7 +45,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-white to-sky-50 p-6">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-background to-slate-50/50 dark:from-background dark:to-slate-900/50 p-6">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link 
