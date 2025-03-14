@@ -29,9 +29,9 @@ const App = () => (
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/avatars" element={
-              <ProtectedRoute>
+          
                 <Avatars />
-              </ProtectedRoute>
+             
             } />
             <Route path="/creator" element={
               <ProtectedRoute>
