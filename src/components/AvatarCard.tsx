@@ -88,7 +88,7 @@ const AvatarCard = ({
             "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
             (isHovering || isPlaying) ? "opacity-100" : "opacity-0"
           )}
-          src=""
+          src="https://ddkhcvzwxehhzizvusst.supabase.co/storage/v1/object/public/keh//67324f2ce0add7ccb33ed381_UGC%20ad-transcode.mp4"
           loop
           muted
           playsInline
