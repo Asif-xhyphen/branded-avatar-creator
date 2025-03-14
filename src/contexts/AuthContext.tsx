@@ -1,8 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "sonner";
-import { supabase } from "@/lib/supabase";
-import { User } from "@supabase/supabase-js";
+import { createClient, User } from "@supabase/supabase-js";
 
 type AppUser = {
   id: string;
@@ -188,6 +187,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsLoading(false);
     }
   };
+
+  const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY,
+  {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      flowType: 'pkce'
+    },
+    global: {
+      headers: {
+        'x-application-name': 'branded-avatar-creator'
+      }
+    }
+  }
+);
 
   const signOut = async () => {
     try {
