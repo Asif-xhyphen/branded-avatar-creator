@@ -13,6 +13,6 @@ if (!supabaseUrl || !supabaseAnonKey) {
 // Create a single supabase client for interacting with your database
 // Use fallback values if environment variables are not defined
 export const supabase = createClient(
-  supabaseUrl || 'https://your-project.supabase.co',
-  supabaseAnonKey || 'your-anon-key'
+  supabaseUrl || 'https://ddkhcvzwxehhzizvusst.supabase.co',
+  supabaseAnonKey || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRka2hjdnp3eGVoaHppenZ1c3N0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE1Mjg1NDEsImV4cCI6MjA1NzEwNDU0MX0.O7d9gfexJHFUfg3Uhrql6gyB34-1fsOCc20tpeeCgHk'
 );
