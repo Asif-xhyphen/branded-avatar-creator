@@ -173,9 +173,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: {
-          redirectTo: `https://branded-avatar-creator.lovable.app/auth/callback`,
-        },
+        // options: {
+        //   redirectTo: `https://branded-avatar-creator.lovable.app/auth/callback`,
+        // },
       });
       
       if (error) throw error;
