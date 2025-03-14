@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp";
 import Avatars from "./pages/Avatars";
 import Creator from "./pages/Creator";
 import NotFound from "./pages/NotFound";
+import AuthCallback from "./pages/AuthCallback";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/avatars" element={
               <ProtectedRoute>
                 <Avatars />
