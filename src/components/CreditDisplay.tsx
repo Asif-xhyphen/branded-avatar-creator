@@ -2,13 +2,24 @@
 import { CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface CreditDisplayProps {
-  credits: number;
   horizontal?: boolean;
 }
 
-const CreditDisplay = ({ credits, horizontal = false }: CreditDisplayProps) => {
+const CreditDisplay = ({ horizontal = false }: CreditDisplayProps) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  
+  const credits = user?.credits || 0;
+
+  const handleGetMoreCredits = () => {
+    // This would redirect to a payment page in a real application
+    navigate('/purchase-credits');
+  };
+
   return (
     <div className={cn(
       "glass-card overflow-hidden",
@@ -41,7 +52,11 @@ const CreditDisplay = ({ credits, horizontal = false }: CreditDisplayProps) => {
           <p className="text-xs text-slate-600">Each video costs 10 credits to generate</p>
         </div>
         
-        <Button variant="outline" className="w-full button-hover-effect">
+        <Button 
+          variant="outline" 
+          className="w-full button-hover-effect"
+          onClick={handleGetMoreCredits}
+        >
           Get More Credits
         </Button>
       </div>
