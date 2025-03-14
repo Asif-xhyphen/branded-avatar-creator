@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { createClient, User } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
 
 type AppUser = {
   id: string;
