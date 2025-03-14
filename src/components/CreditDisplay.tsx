@@ -7,13 +7,15 @@ import { useNavigate } from 'react-router-dom';
 
 interface CreditDisplayProps {
   horizontal?: boolean;
+  credits?: number; // Add this optional prop
 }
 
-const CreditDisplay = ({ horizontal = false }: CreditDisplayProps) => {
+const CreditDisplay = ({ horizontal = false, credits: propCredits }: CreditDisplayProps) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   
-  const credits = user?.credits || 0;
+  // Use propCredits if provided, otherwise use user.credits
+  const credits = propCredits !== undefined ? propCredits : (user?.credits || 0);
 
   const handleGetMoreCredits = () => {
     // This would redirect to a payment page in a real application
