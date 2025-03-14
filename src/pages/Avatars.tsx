@@ -26,6 +26,9 @@ const filterOptions = [
   { name: 'Ethnicity', options: ['Diverse', 'Any'] }
 ];
 
+// Add to imports
+import SignOutButton from "@/components/SignOutButton";
+
 const Avatars = () => {
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -100,19 +103,22 @@ const Avatars = () => {
       <div className="container px-6 mx-auto">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="mb-8">
-            <Link 
-              to="/" 
-              className="inline-flex items-center text-sm text-slate-600 hover:text-slate-900 mb-4 focus-ring rounded-md px-2 py-1 -ml-2"
-            >
-              <ArrowLeft className="mr-1 h-3.5 w-3.5" />
-              Back to Home
-            </Link>
-            
-            <h1 className="text-3xl font-bold text-slate-900 mb-3">Select Your Avatar</h1>
-            <p className="text-slate-600 max-w-2xl">
-              Choose the perfect avatar for your brand's UGC video. Each avatar brings a unique style and personality to help convey your message authentically.
-            </p>
+          <div className="mb-8 flex justify-between items-center">
+            <div>
+              <Link 
+                to="/" 
+                className="inline-flex items-center text-sm text-slate-600 hover:text-slate-900 mb-4 focus-ring rounded-md px-2 py-1 -ml-2"
+              >
+                <ArrowLeft className="mr-1 h-3.5 w-3.5" />
+                Back to Home
+              </Link>
+              
+              <h1 className="text-3xl font-bold text-slate-900 mb-3">Select Your Avatar</h1>
+              <p className="text-slate-600 max-w-2xl">
+                Choose the perfect avatar for your brand's UGC video. Each avatar brings a unique style and personality to help convey your message authentically.
+              </p>
+            </div>
+            <SignOutButton />
           </div>
           
           {/* Search and filters */}
