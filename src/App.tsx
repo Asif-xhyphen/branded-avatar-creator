@@ -28,13 +28,16 @@ const App = () => (
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
-            <Route path="/avatars" element={<Avatars />} />
-            <Route path="/creator" element={
-              // <ProtectedRoute>
-                <Creator />
-              // </ProtectedRoute>
+            <Route path="/avatars" element={
+              <ProtectedRoute>
+                <Avatars />
+              </ProtectedRoute>
             } />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/creator" element={
+              <ProtectedRoute>
+                <Creator />
+              </ProtectedRoute>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
