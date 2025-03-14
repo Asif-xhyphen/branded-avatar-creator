@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import AvatarCard from '@/components/AvatarCard';
 import { Search, Filter, ArrowRight, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
+// import SignOutButton from "@/components/SignOutButton";
 
 // Sample avatar data (would come from API in real app)
 const sampleAvatars = Array.from({ length: 12 }, (_, i) => ({
@@ -25,9 +26,6 @@ const filterOptions = [
   { name: 'Style', options: ['Professional', 'Casual', 'Corporate', 'Any'] },
   { name: 'Ethnicity', options: ['Diverse', 'Any'] }
 ];
-
-// Add to imports
-import SignOutButton from "@/components/SignOutButton";
 
 const Avatars = () => {
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
@@ -118,7 +116,7 @@ const Avatars = () => {
                 Choose the perfect avatar for your brand's UGC video. Each avatar brings a unique style and personality to help convey your message authentically.
               </p>
             </div>
-            <SignOutButton />
+            {/* <SignOutButton /> */}
           </div>
           
           {/* Search and filters */}

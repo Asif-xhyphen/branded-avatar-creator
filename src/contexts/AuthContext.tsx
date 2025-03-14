@@ -33,9 +33,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Add navigate to existing hooks
   const navigate = useNavigate();
-  
   const [user, setUser] = useState<AppUser | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -194,15 +192,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       setIsLoading(true);
-      
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      
       navigate('/');
-      
     } catch (error: any) {
       toast.error(error.message || "Failed to sign out");
-      throw error;
     } finally {
       setIsLoading(false);
     }
