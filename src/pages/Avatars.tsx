@@ -6,20 +6,11 @@ import { Input } from '@/components/ui/input';
 import AvatarCard from '@/components/AvatarCard';
 import { Search, Filter, ArrowRight, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { heygenService, HeyGenAvatar } from '@/services/heygenService';
+import { toast } from 'sonner';
 // import SignOutButton from "@/components/SignOutButton";
 
-// Sample avatar data (would come from API in real app)
-const sampleAvatars = Array.from({ length: 12 }, (_, i) => ({
-  id: `avatar-${i + 1}`,
-  name: `Avatar ${i + 1}`,
-  image: `https://randomuser.me/api/portraits/${i % 2 === 0 ? 'women' : 'men'}/${i + 1}.jpg`,
-  tags: [
-    i % 3 === 0 ? 'Professional' : 'Casual',
-    i % 2 === 0 ? 'Female' : 'Male',
-    i % 4 === 0 ? 'Diverse' : 'Corporate'
-  ]
-}));
-
+// Filter options
 const filterOptions = [
   { name: 'Gender', options: ['Male', 'Female', 'Any'] },
   { name: 'Age Range', options: ['18-30', '30-45', '45+', 'Any'] },
@@ -31,18 +22,66 @@ const Avatars = () => {
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [avatars, setAvatars] = useState(sampleAvatars);
+  const [avatars, setAvatars] = useState<HeyGenAvatar[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
+  const [apiKey, setApiKey] = useState<string>(
+    localStorage.getItem('heygen_api_key') || ''
+  );
+  
+  const fetchAvatars = async () => {
+    setIsLoading(true);
+    try {
+      if (apiKey) {
+        heygenService.setApiKey(apiKey);
+        const fetchedAvatars = await heygenService.getAvatars();
+        if (fetchedAvatars.length > 0) {
+          setAvatars(fetchedAvatars);
+          localStorage.setItem('heygen_api_key', apiKey);
+        } else {
+          // If no avatars returned, show sample avatars
+          setAvatars(transformSampleAvatars());
+          toast.warning("Could not fetch avatars from HeyGen. Using sample avatars instead.");
+        }
+      } else {
+        // If no API key, use sample avatars
+        setAvatars(transformSampleAvatars());
+      }
+    } catch (error) {
+      console.error("Failed to fetch avatars:", error);
+      toast.error("Failed to fetch avatars from HeyGen");
+      setAvatars(transformSampleAvatars());
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  // Transform sample avatars to match HeyGen format
+  const transformSampleAvatars = () => {
+    return Array.from({ length: 12 }, (_, i) => ({
+      id: `avatar-${i + 1}`,
+      name: `Avatar ${i + 1}`,
+      image_url: `https://randomuser.me/api/portraits/${i % 2 === 0 ? 'women' : 'men'}/${i + 1}.jpg`,
+      gender: i % 2 === 0 ? 'Female' : 'Male',
+      style: i % 3 === 0 ? 'Professional' : 'Casual',
+      ethnicity: i % 4 === 0 ? 'Diverse' : undefined,
+      age_range: i % 3 === 0 ? '18-30' : i % 3 === 1 ? '30-45' : '45+'
+    }));
+  };
   
   useEffect(() => {
-    // Simulate loading avatars
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    
-    return () => clearTimeout(timer);
+    // Fetch avatars when component mounts
+    fetchAvatars();
   }, []);
+  
+  const handleApiKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setApiKey(e.target.value);
+  };
+  
+  const handleApiKeySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchAvatars();
+  };
   
   const toggleFilter = (category: string, option: string) => {
     setActiveFilters(prev => {
@@ -70,19 +109,22 @@ const Avatars = () => {
     // Apply active filters
     for (const [category, value] of Object.entries(activeFilters)) {
       if (category === 'Gender') {
-        if (!avatar.tags.some(tag => tag.toLowerCase() === value.toLowerCase())) {
+        if (avatar.gender?.toLowerCase() !== value.toLowerCase()) {
           return false;
         }
       } else if (category === 'Style') {
-        if (!avatar.tags.some(tag => tag.toLowerCase() === value.toLowerCase())) {
+        if (avatar.style?.toLowerCase() !== value.toLowerCase()) {
           return false;
         }
-      } else if (category === 'Ethnicity') {
-        if (!avatar.tags.some(tag => tag.toLowerCase() === value.toLowerCase())) {
+      } else if (category === 'Ethnicity' && value !== 'Any') {
+        if (avatar.ethnicity?.toLowerCase() !== value.toLowerCase()) {
+          return false;
+        }
+      } else if (category === 'Age Range' && value !== 'Any') {
+        if (avatar.age_range !== value) {
           return false;
         }
       }
-      // Age range would require additional data
     }
     
     return true;
@@ -90,6 +132,11 @@ const Avatars = () => {
   
   const handleAvatarSelect = (id: string) => {
     setSelectedAvatar(id);
+    // Store selected avatar in localStorage for the creator page
+    const selectedAvatarObj = avatars.find(avatar => avatar.id === id);
+    if (selectedAvatarObj) {
+      localStorage.setItem('selected_avatar', JSON.stringify(selectedAvatarObj));
+    }
   };
   
   const getActiveFilterCount = () => {
@@ -117,6 +164,24 @@ const Avatars = () => {
               </p>
             </div>
             {/* <SignOutButton /> */}
+          </div>
+          
+          {/* HeyGen API Key Input */}
+          <div className="mb-6">
+            <form onSubmit={handleApiKeySubmit} className="glass-card p-4">
+              <h3 className="font-medium text-slate-900 mb-2">HeyGen API Key</h3>
+              <p className="text-sm text-slate-600 mb-3">Enter your HeyGen API key to fetch real avatars</p>
+              <div className="flex gap-3">
+                <Input
+                  type="password"
+                  placeholder="Enter HeyGen API key"
+                  value={apiKey}
+                  onChange={handleApiKeyChange}
+                  className="flex-grow"
+                />
+                <Button type="submit">Fetch Avatars</Button>
+              </div>
+            </form>
           </div>
           
           {/* Search and filters */}
@@ -208,8 +273,12 @@ const Avatars = () => {
                   key={avatar.id}
                   id={avatar.id}
                   name={avatar.name}
-                  image={avatar.image}
-                  tags={avatar.tags}
+                  image={avatar.image_url}
+                  tags={[
+                    avatar.gender || '', 
+                    avatar.style || '', 
+                    avatar.ethnicity || ''
+                  ].filter(Boolean)}
                   isSelected={selectedAvatar === avatar.id}
                   onSelect={handleAvatarSelect}
                 />

@@ -1,14 +1,29 @@
 
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CreditDisplay from '@/components/CreditDisplay';
+import { HeyGenAvatar } from '@/services/heygenService';
 
 interface AvatarPanelProps {
   credits: number;
-  avatarImage?: string;
 }
 
-const AvatarPanel = ({ credits, avatarImage = "https://randomuser.me/api/portraits/women/1.jpg" }: AvatarPanelProps) => {
+const AvatarPanel = ({ credits }: AvatarPanelProps) => {
+  const [selectedAvatar, setSelectedAvatar] = useState<HeyGenAvatar | null>(null);
+  
+  useEffect(() => {
+    // Load selected avatar from localStorage
+    const storedAvatar = localStorage.getItem('selected_avatar');
+    if (storedAvatar) {
+      try {
+        setSelectedAvatar(JSON.parse(storedAvatar));
+      } catch (e) {
+        console.error("Failed to parse stored avatar", e);
+      }
+    }
+  }, []);
+  
   return (
     <div className="space-y-6">
       <CreditDisplay credits={credits} />
@@ -18,21 +33,43 @@ const AvatarPanel = ({ credits, avatarImage = "https://randomuser.me/api/portrai
         
         <div className="aspect-[3/4] bg-slate-100 rounded-lg overflow-hidden">
           <img 
-            src={avatarImage} 
+            src={selectedAvatar?.image_url || "https://randomuser.me/api/portraits/women/1.jpg"} 
             alt="Selected Avatar" 
             className="w-full h-full object-cover"
           />
         </div>
         
-        <Button
-          variant="outline"
-          className="w-full button-hover-effect"
-          asChild
-        >
-          <Link to="/avatars">
-            Change Avatar
-          </Link>
-        </Button>
+        <div className="space-y-2">
+          {selectedAvatar && (
+            <div className="flex flex-wrap gap-1 mb-3">
+              {selectedAvatar.gender && (
+                <span className="inline-block text-xs font-medium bg-sky-100 text-sky-700 rounded-full px-2 py-0.5">
+                  {selectedAvatar.gender}
+                </span>
+              )}
+              {selectedAvatar.style && (
+                <span className="inline-block text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full px-2 py-0.5">
+                  {selectedAvatar.style}
+                </span>
+              )}
+              {selectedAvatar.ethnicity && (
+                <span className="inline-block text-xs font-medium bg-amber-100 text-amber-700 rounded-full px-2 py-0.5">
+                  {selectedAvatar.ethnicity}
+                </span>
+              )}
+            </div>
+          )}
+          
+          <Button
+            variant="outline"
+            className="w-full button-hover-effect"
+            asChild
+          >
+            <Link to="/avatars">
+              Change Avatar
+            </Link>
+          </Button>
+        </div>
       </div>
     </div>
   );

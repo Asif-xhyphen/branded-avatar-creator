@@ -1,9 +1,11 @@
 
 import { Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import GenerationPanel from '@/components/creator/GenerationPanel';
 import AvatarPanel from '@/components/creator/AvatarPanel';
 import { useVideoGeneration, sampleVoices } from '@/components/creator/VideoGenerationLogic';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 const Creator = () => {
   const {
@@ -19,8 +21,22 @@ const Creator = () => {
     setActiveTab,
     credits,
     handleGenerate,
-    handleReset
+    handleReset,
+    checkingStatus,
+    selectedAvatar
   } = useVideoGeneration();
+  
+  useEffect(() => {
+    // Check if we have a selected avatar
+    if (!selectedAvatar) {
+      toast.warning("Please select an avatar first", {
+        action: {
+          label: "Select Avatar",
+          onClick: () => window.location.href = '/avatars'
+        }
+      });
+    }
+  }, [selectedAvatar]);
   
   return (
     <div className="min-h-screen pt-24 pb-16">
@@ -38,7 +54,7 @@ const Creator = () => {
             
             <h1 className="text-3xl font-bold text-slate-900 mb-3">Create Your UGC Video</h1>
             <p className="text-slate-600 max-w-2xl">
-              Craft a compelling script and select the perfect voice to bring your brand message to life.
+              Craft a compelling script and select the perfect voice to bring your brand message to life using HeyGen AI technology.
             </p>
           </div>
           
@@ -58,6 +74,7 @@ const Creator = () => {
                 onGenerate={handleGenerate}
                 onReset={handleReset}
                 voices={sampleVoices}
+                checkingStatus={checkingStatus}
               />
             </div>
             
